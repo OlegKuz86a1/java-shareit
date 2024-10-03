@@ -8,6 +8,7 @@ import ru.practicum.shareit.user.dto.UserUpdateDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserStorage;
+import ru.practicum.shareit.user.storage.UserStorageImpl;
 import ru.practicum.shareit.user.validation.UserValidation;
 
 @Service
@@ -17,10 +18,13 @@ public class UserService {
     private final UserStorage userStorage;
     private final UserMapper userMapper;
     private final UserValidation userValidation;
+    private final UserStorageImpl userStorageImpl;
 
     public UserDto create(UserCreateDto userCreateDto) {
         userValidation.validate(userCreateDto);
-        return userMapper.toDto(userStorage.create(userMapper.toEntity(userCreateDto)));
+        UserDto dto = userMapper.toDto(userStorage.create(userMapper.toEntity(userCreateDto)));
+        userStorageImpl.init();
+        return dto;
     }
 
     public UserDto update(Long userId, UserUpdateDto userUpdateDto) {

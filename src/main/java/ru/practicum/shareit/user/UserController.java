@@ -36,7 +36,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserDto getById(@Positive @PathVariable Long userId) {
-        log.info("request for getting user by ID {}", userId);
+        log.info("request for getting user by ID = {}", userId);
         UserDto byId = userService.getById(userId);
         log.info("get user by ID {}", byId);
         return byId;

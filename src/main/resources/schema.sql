@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS item_requests (
     id SERIAL PRIMARY KEY,
     requestor_id BIGINT,
     description VARCHAR(256),
-    created TIMESTAMP WITHOUT TIME ZONE,
+    created TIMESTAMP,
     FOREIGN KEY (requestor_id)  REFERENCES users (id) ON DELETE CASCADE
 );
 
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS items (
 CREATE TABLE IF NOT EXISTS bookings (
     id SERIAL PRIMARY KEY,
     item_id BIGINT,
-    start_booking TIMESTAMP WITHOUT TIME ZONE,
-    end_booking TIMESTAMP WITHOUT TIME ZONE,
+    start_booking TIMESTAMP,
+    end_booking TIMESTAMP,
     booker_id BIGINT,
     FOREIGN KEY (item_id)  REFERENCES items (id) ON DELETE CASCADE,
     FOREIGN KEY (booker_id)  REFERENCES users (id) ON DELETE CASCADE
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS booking_status(
 CREATE TABLE IF NOT EXISTS comments(
     id SERIAL PRIMARY KEY,
     item_id BIGINT,
-    created TIMESTAMP WITHOUT TIME ZONE,
+    created TIMESTAMP,
     author_id BIGINT,
     text VARCHAR(256),
     FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE,

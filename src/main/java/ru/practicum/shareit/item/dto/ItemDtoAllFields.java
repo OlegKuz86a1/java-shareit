@@ -18,6 +18,7 @@ public class ItemDtoAllFields {
     private Long id;
     private String name;
     private String description;
+    @JsonProperty("available")
     private boolean isAvailable;
     private Long ownerId;
     private BookingDateDto lastBooking;

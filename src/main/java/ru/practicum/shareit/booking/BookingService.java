@@ -57,11 +57,9 @@ public class BookingService {
             throw new AccessDeniedException(String.format("booking with id=%s for the user with id=%s was not found",
                     bookingId, userId));
 
-        if (approved) {
-            booking.setStatus(BookingStatus.APPROVED);
-        } else {
-            booking.setStatus(BookingStatus.REJECTED);
-        }
+
+        booking.setStatus(approved ? BookingStatus.APPROVED : BookingStatus.REJECTED);
+
         return bookingMapper.toDto(bookingRepository.save(booking));
     }
 

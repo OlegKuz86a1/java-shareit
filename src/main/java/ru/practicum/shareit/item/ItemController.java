@@ -23,8 +23,8 @@ public class ItemController {
 
     @GetMapping
     List<ItemDtoAllFields> allItems(@RequestHeader(SHARER_USER_ID_HEADER) Long ownerId,
-                                    @RequestParam(value = "from", required = false, defaultValue = "1") int  from,
-                                    @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+                                    @RequestParam(defaultValue = "1") int  from,
+                                    @RequestParam(defaultValue = "10") int size) {
         log.info("request for getting items by ownerId {}", ownerId);
         List<ItemDtoAllFields> items = itemService.allItems(ownerId, from, size);
         log.info("returning the list of items = {}", items);

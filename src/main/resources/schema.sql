@@ -49,18 +49,19 @@ CREATE TABLE IF NOT EXISTS statuses(
 );
 
 CREATE TABLE IF NOT EXISTS booking_status(
-    status_id INT,
-    booking_id BIGINT,
+    status_id INT NOT NULL,
+    booking_id BIGINT NOT NULL,
     FOREIGN KEY (status_id) REFERENCES statuses (id) ON DELETE CASCADE,
-    FOREIGN KEY (booking_id) REFERENCES bookings (id) ON DELETE CASCADE
+    FOREIGN KEY (booking_id) REFERENCES bookings (id) ON DELETE CASCADE,
+    PRIMARY KEY (status_id, booking_id)
 );
 
 CREATE TABLE IF NOT EXISTS comments(
     id SERIAL PRIMARY KEY,
-    item_id BIGINT,
-    created TIMESTAMP,
-    author_id BIGINT,
-    text VARCHAR(256),
+    item_id BIGINT NOT NULL,
+    "created" TIMESTAMP NOT NULL,
+    author_id BIGINT NOT NULL,
+    text VARCHAR(256) NOT NULL,
     FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );

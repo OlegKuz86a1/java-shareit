@@ -52,9 +52,9 @@ public class BookingController {
 
     @GetMapping
     List<BookingDto> getAllByUser(@Positive @RequestHeader(SHARER_USER_ID_HEADER) Long userId,
-                                  @RequestParam(value = "state", required = false, defaultValue = "ALL") BookingStatus state,
-                                  @RequestParam(value = "from", required = false, defaultValue = "1") int from,
-                                  @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+                                  @RequestParam(defaultValue = "ALL") BookingStatus state,
+                                  @RequestParam(defaultValue = "1") int from,
+                                  @RequestParam(defaultValue = "10") int size) {
         log.info("returning the booking id get by user for rent before query: {}", userId);
         List<BookingDto> allByUser = bookingService.getAllByUser(userId, state, from, size);
         log.info("returning the booking get by user for rent after query: {}", allByUser);
@@ -63,9 +63,9 @@ public class BookingController {
 
     @GetMapping("/owner")
     List<BookingDto> getAllByOwner(@Positive @RequestHeader(SHARER_USER_ID_HEADER) Long userId,
-                                   @RequestParam(value = "state", required = false, defaultValue = "ALL") BookingStatus state,
-                                   @RequestParam(value = "from", required = false, defaultValue = "1") int from,
-                                   @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+                                   @RequestParam(defaultValue = "ALL") BookingStatus state,
+                                   @RequestParam(defaultValue = "1") int from,
+                                   @RequestParam(defaultValue = "10") int size) {
         log.info("returning the booking id get by owner for rent before query: {}", userId);
         List<BookingDto> allByOwner = bookingService.getAllByOwner(userId, state, from, size);
         log.info("returning the booking get by owner for rent after query: {}", allByOwner);

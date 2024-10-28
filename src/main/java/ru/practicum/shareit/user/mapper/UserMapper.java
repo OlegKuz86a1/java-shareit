@@ -15,4 +15,6 @@ public abstract class UserMapper implements EntityMapper<UserDto, User> {
 
     public abstract User toEntity(UserBaseGetter user);
 
+    public abstract User toEntity(Long id, UserBaseGetter user);
+
 }

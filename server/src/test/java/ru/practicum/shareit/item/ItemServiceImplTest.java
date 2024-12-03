@@ -151,6 +151,7 @@ class ItemServiceImplTest {
         verify(userRepository, never()).findById(anyLong());
         verify(commentRepository, never()).save(Mockito.any());
     }
+
     @Test
     void getItemsForRentThenCallSearchItemRepository() {
         List<Item> items = List.of(item);
@@ -192,7 +193,7 @@ class ItemServiceImplTest {
         when(userRepository.findById(7L)).thenThrow(new NotFoundException("User not found with id: 7"));
 
         final NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> itemService.updateItem(7L, requestItem ));
+                () -> itemService.updateItem(7L, requestItem));
         assertEquals("User not found with id: 7", exception.getMessage());
         verify(userRepository, times(1)).findById(7L);
         verify(itemRepository, Mockito.never()).findById(Mockito.anyLong());

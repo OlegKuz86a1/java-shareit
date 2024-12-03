@@ -82,7 +82,7 @@ public class ItemServiceTest {
         UserDto userDto = userService.create(userCreateDto);
         itemCreateDto.setOwnerId(userDto.getId());
         ItemDto addOne = itemService.addItem(itemCreateDto);
-        ItemCreateDto two= ItemCreateDto.builder().name("кран").description("смеситель").isAvailable(true)
+        ItemCreateDto two = ItemCreateDto.builder().name("кран").description("смеситель").isAvailable(true)
                 .ownerId(userDto.getId()).build();
         ItemDto addTwo = itemService.addItem(two);
 
@@ -116,7 +116,7 @@ public class ItemServiceTest {
         UserDto userDto = userService.create(userCreateDto);
         itemCreateDto.setOwnerId(userDto.getId());
         ItemDto addOne = itemService.addItem(itemCreateDto);
-        ItemCreateDto one= ItemCreateDto.builder().name("большой кран").description("смеситель").isAvailable(true)
+        ItemCreateDto one = ItemCreateDto.builder().name("большой кран").description("смеситель").isAvailable(true)
                 .ownerId(userDto.getId()).build();
         ItemDto addTwo = itemService.addItem(one);
 
@@ -127,6 +127,7 @@ public class ItemServiceTest {
         assertThat(responseItems.getFirst().getName(), equalTo(addTwo.getName()));
 
     }
+
     @Test
     void addItem() {
         UserDto userDto = userService.create(userCreateDto);

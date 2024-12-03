@@ -53,6 +53,7 @@ public class ItemRequestRepositoryTest {
 
 
     }
+
     @Test
     void findOtherUsersRequests() {
         User requestorFirst = User.builder().name("Люся").email("lusya@mail.ru").build();

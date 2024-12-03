@@ -58,14 +58,14 @@ class ItemRequestServiceImplTest {
     private static User user;
     private static ItemRequest itemRequest;
     private static Item item;
-    private final long USERID = 7L;
-    private final long ITEMREQUESTID = 8L;
+    private final long userId = 7L;
+    private final long itemRequestId = 8L;
 
     @BeforeEach
     void setUp() {
-        user = User.builder().id(USERID).name("Люся").email("Lusya@mail.ru").build();
+        user = User.builder().id(userId).name("Люся").email("Lusya@mail.ru").build();
         itemRequestCreate = ItemRequestCreate.builder().description("Нужен фотоаппарат").requestor(6L).build();
-        itemRequest = ItemRequest.builder().id(ITEMREQUESTID).requestor(user).description("Нужен фотоаппарат")
+        itemRequest = ItemRequest.builder().id(itemRequestId).requestor(user).description("Нужен фотоаппарат")
                 .dateRequestCreated(LocalDateTime.now()).build();
         item = Item.builder().name("фотоаппарат").description("Nikon, профессиональный").owner(user)
                 .itemRequest(itemRequest).isAvailable(true).build();
@@ -74,13 +74,13 @@ class ItemRequestServiceImplTest {
 
     @Test
     void createNewItemRequestThenCallSaveToRepositoryAndReturnDtoWith() {
-        when(userRepository.findById(USERID)).thenReturn(Optional.of(user));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(itemRequestRepository.save(Mockito.any(ItemRequest.class))).thenReturn(itemRequest);
 
-        ItemRequestDto itemRequestDto = itemRequestService.create(USERID, itemRequestCreate);
+        ItemRequestDto itemRequestDto = itemRequestService.create(userId, itemRequestCreate);
 
         assertThat(itemRequestDto, equalTo(mapper.toDto(itemRequest)));
-        Mockito.verify(userRepository, Mockito.times(1)).findById(USERID);
+        Mockito.verify(userRepository, Mockito.times(1)).findById(userId);
         Mockito.verify(itemRequestRepository, Mockito.times(1))
                 .save(Mockito.any(ItemRequest.class));
 
@@ -88,14 +88,14 @@ class ItemRequestServiceImplTest {
 
     @Test
     void createNewItemRequestByNotExistsUserThenReturnNotFoundException() {
-        when(userRepository.findById(USERID)).thenThrow(new NotFoundException("User with id=7 not found"));
+        when(userRepository.findById(userId)).thenThrow(new NotFoundException("User with id=7 not found"));
 
         final NotFoundException exception = Assertions.assertThrows(NotFoundException.class,
-                () -> itemRequestService.create(USERID, itemRequestCreate));
+                () -> itemRequestService.create(userId, itemRequestCreate));
 
         Assertions.assertEquals("User with id=7 not found", exception.getMessage());
 
-        Mockito.verify(userRepository, Mockito.times(1)).findById(USERID);
+        Mockito.verify(userRepository, Mockito.times(1)).findById(userId);
         Mockito.verify(itemRequestRepository, Mockito.never()).save(Mockito.any(ItemRequest.class));
     }
 
@@ -103,15 +103,15 @@ class ItemRequestServiceImplTest {
     void getRequestsByUserIdAndThenReturnItemRequestDtoWithItems() {
         when(mapper.mapToRequestWithItem(any(ItemRequest.class), any(List.class)))
                 .thenReturn(mock(ItemRequestDtoWithItems.class));
-        when(userRepository.existsById(USERID)).thenReturn(true);
+        when(userRepository.existsById(userId)).thenReturn(true);
         when(itemRequestRepository.findAllByRequestorIdOrderByDateRequestCreatedDesc(anyLong()))
                 .thenReturn(List.of(itemRequest));
         when(itemRepository.findItemsByItemRequestId(anyLong())).thenReturn(List.of(item));
 
-        List<ItemRequestDtoWithItems> itemsList = itemRequestService.getRequestsByUserId(USERID);
+        List<ItemRequestDtoWithItems> itemsList = itemRequestService.getRequestsByUserId(userId);
 
         assertNotNull(itemsList.getFirst().getItems());
-        verify(userRepository, times(1)).existsById(USERID);
+        verify(userRepository, times(1)).existsById(userId);
         verify(itemRequestRepository, times(1))
                 .findAllByRequestorIdOrderByDateRequestCreatedDesc(anyLong());
         verify(itemRepository, times(1)).findItemsByItemRequestId(anyLong());
@@ -125,7 +125,7 @@ class ItemRequestServiceImplTest {
                 .thenReturn(new PageImpl<>(List.of(mock(ItemRequest.class))));
         when(itemRepository.findItemsByItemRequestId(anyLong())).thenReturn(List.of(item));
 
-        List<ItemRequestDtoWithItems> dtoWithItems = itemRequestService.getAllRequests(USERID, 1, 10);
+        List<ItemRequestDtoWithItems> dtoWithItems = itemRequestService.getAllRequests(userId, 1, 10);
 
         assertNotNull(dtoWithItems.getFirst().getItems());
         verify(itemRequestRepository, Mockito.times(1))
@@ -141,10 +141,10 @@ class ItemRequestServiceImplTest {
         when(itemRepository.findItemsByItemRequestId(anyLong())).thenReturn(List.of(item));
         when(itemRequestRepository.findAllByRequestorIdOrderByDateRequestCreatedDesc(anyLong()))
                 .thenReturn(List.of(itemRequest1, itemRequest2, itemRequest3));
-        when(userRepository.existsById(USERID)).thenReturn(true);
+        when(userRepository.existsById(userId)).thenReturn(true);
 
-        itemRequestService.getRequestsByUserId(USERID);
-        verify(userRepository, times(1)).existsById(USERID);
+        itemRequestService.getRequestsByUserId(userId);
+        verify(userRepository, times(1)).existsById(userId);
         verify(itemRequestRepository, times(1))
                 .findAllByRequestorIdOrderByDateRequestCreatedDesc(anyLong());
         verify(itemRepository, times(3)).findItemsByItemRequestId(anyLong());
@@ -152,15 +152,15 @@ class ItemRequestServiceImplTest {
 
     @Test
     void getByIdByNotExistsItemRequestAndThenNotFoundException() {
-        when(userRepository.existsById(USERID)).thenReturn(true);
-        when(itemRequestRepository.findById(ITEMREQUESTID)).thenThrow(new NotFoundException("Item request with id=8 not found"));
+        when(userRepository.existsById(userId)).thenReturn(true);
+        when(itemRequestRepository.findById(itemRequestId)).thenThrow(new NotFoundException("Item request with id=8 not found"));
 
         final NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> itemRequestService.getRequestById(USERID, ITEMREQUESTID));
+                () -> itemRequestService.getRequestById(userId, itemRequestId));
         assertEquals("Item request with id=8 not found", exception.getMessage());
         verify(itemRepository, never()).findItemsByItemRequestId(anyLong());
         verify(itemRequestRepository, times(1)).findById(anyLong());
-        verify(userRepository,times(1)).existsById(USERID);
+        verify(userRepository,times(1)).existsById(userId);
 
     }
 
@@ -169,27 +169,27 @@ class ItemRequestServiceImplTest {
         when(mapper.mapToRequestWithItem(any(ItemRequest.class), any(List.class)))
                 .thenReturn(mock(ItemRequestDtoWithItems.class));
 
-        when(itemRepository.findItemsByItemRequestId(ITEMREQUESTID)).thenReturn(List.of(item));
-        when(itemRequestRepository.findById(ITEMREQUESTID)).thenReturn(Optional.of(itemRequest));
-        when(userRepository.existsById(USERID)).thenReturn(true);
-        ItemRequestDtoWithItems dtoWithItems = itemRequestService.getRequestById(USERID, ITEMREQUESTID);
+        when(itemRepository.findItemsByItemRequestId(itemRequestId)).thenReturn(List.of(item));
+        when(itemRequestRepository.findById(itemRequestId)).thenReturn(Optional.of(itemRequest));
+        when(userRepository.existsById(userId)).thenReturn(true);
+        ItemRequestDtoWithItems dtoWithItems = itemRequestService.getRequestById(userId, itemRequestId);
         assertNotNull(dtoWithItems.getItems());
 
-        verify(userRepository, Mockito.times(1)).existsById(USERID);
+        verify(userRepository, Mockito.times(1)).existsById(userId);
         verify(itemRequestRepository, times(1)).findById(anyLong());
         verify(itemRepository, times(1)).findItemsByItemRequestId(anyLong());
     }
 
     @Test
     void getByIdByNotExistsUserAndThenNotFoundException() {
-        when(userRepository.existsById(USERID)).thenReturn(false);
+        when(userRepository.existsById(userId)).thenReturn(false);
         final NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> itemRequestService.getRequestById(USERID, ITEMREQUESTID));
+                () -> itemRequestService.getRequestById(userId, itemRequestId));
 
         assertEquals("User with id=7 not found", exception.getMessage());
         verify(itemRepository, never()).findItemsByItemRequestId(anyLong());
         verify(itemRequestRepository, never()).findById(anyLong());
-        verify(userRepository, times(1)).existsById(USERID);
+        verify(userRepository, times(1)).existsById(userId);
 
     }
 }

@@ -33,7 +33,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     @Override
     public ItemRequestDto create(long userId, ItemRequestCreate itemRequestCreate) {
         User requestor = userRepository.findById(userId)
-                .orElseThrow(()-> new NotFoundException(String.format("User with id=%s not found", userId)));
+                .orElseThrow(() -> new NotFoundException(String.format("User with id=%s not found", userId)));
         itemRequestCreate.setDateRequestCreated(LocalDateTime.now());
         return requestMapper.toDto(itemRequestRepository.save(requestMapper
                 .mapRequestCreateToEntity(requestor, itemRequestCreate)));
@@ -53,7 +53,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     @Override
     public ItemRequestDtoWithItems getRequestById(long userId, long requestId) {
         userVerification(userId);
-        ItemRequest itemRequest = itemRequestRepository.findById(requestId).orElseThrow(()->
+        ItemRequest itemRequest = itemRequestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException(String.format("Item request with id=%s not found", userId)));
         List<Item> itemsByItemRequestId = itemRepository.findItemsByItemRequestId(requestId);
         return requestMapper.mapToRequestWithItem(itemRequest, itemsByItemRequestId);

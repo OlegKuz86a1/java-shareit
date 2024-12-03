@@ -99,6 +99,7 @@ public class BookingServiceTest {
         verify(bookingRepository, times(1)).findById(anyLong());
         verify(bookingRepository, never()).save(any(Booking.class));
     }
+
     @Test
     void changeApprovedStatusValidBookingThenSaveBookingRepository() {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));

@@ -53,7 +53,7 @@ public class ItemControllerTest {
     private CreateCommentDto createCommentDto;
 
     @BeforeEach
-    void setUp() {;
+    void setUp() {
         itemDto = ItemDto.builder().id(1L).name("фен").description("новый").ownerId(7L).isAvailable(true).build();
         itemCreateDto = ItemCreateDto.builder().name("фен").description("новый").ownerId(7L).isAvailable(true).build();
         updated = RequestItem.builder().id(1L).name("фен").description("БУ").isAvailable(true).build();
@@ -97,6 +97,7 @@ public class ItemControllerTest {
                 .andExpect(jsonPath("available").value(true));
 
     }
+
     @Test
     void getItemByNotExistsItemAndThenStatusNotFound() throws Exception {
         when(itemService.getItem(7L, 1L)).thenThrow(new NotFoundException("Item not found with id: 1"));

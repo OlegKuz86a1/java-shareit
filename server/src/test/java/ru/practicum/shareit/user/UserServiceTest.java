@@ -90,7 +90,7 @@ public class UserServiceTest {
     void updateNotExistsUserThenThrowNotFoundException() {
         when(userRepository.findById(2L)).thenThrow(new NotFoundException("User with id=2 not found"));
         final NotFoundException exception = assertThrows(NotFoundException.class,
-                ()->userService.update(2L,userUpdateDto));
+                () -> userService.update(2L,userUpdateDto));
 
         assertEquals("User with id=2 not found", exception.getMessage());
     }
@@ -129,6 +129,7 @@ public class UserServiceTest {
         verify(userRepository, Mockito.times(1)).save(user);
 
     }
+
     @Test
     void updateUserWithoutEmailThenNotCallExistsByEmailRepository() {
         UserUpdateDto userWithoutEmail = UserUpdateDto.builder().name("Марсик").build();

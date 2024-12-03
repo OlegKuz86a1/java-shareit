@@ -21,6 +21,7 @@ public class ItemCreateDtoTest {
     void correctItem() throws IOException {
         ItemCreateDto itemCreateDto = ItemCreateDto.builder().name("фотоаппарат").description("профессиональный, Nikon")
                 .ownerId(2L).isAvailable(true).requestId(1L).build();
+
         JsonContent<ItemCreateDto> jsonContent = jacksonTester.write(itemCreateDto);
 
         assertThat(jsonContent).extractingJsonPathStringValue("$.name").isEqualTo("фотоаппарат");

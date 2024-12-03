@@ -63,8 +63,8 @@ public class UserServiceTest {
     @Test
     void getUserByNotExistUserAndThenThrowNotFoundException() {
         when(userRepository.findById(7L)).thenThrow(new NotFoundException("User with id=7 not found"));
-
         final NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.getById(7L));
+
         assertEquals("User with id=7 not found", exception.getMessage());
         verify(userRepository, Mockito.times(1)).findById(7L);
     }

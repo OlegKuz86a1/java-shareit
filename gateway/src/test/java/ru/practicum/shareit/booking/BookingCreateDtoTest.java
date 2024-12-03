@@ -20,7 +20,7 @@ public class BookingCreateDtoTest {
     JacksonTester<BookingCreateDto> jacksonTester;
 
     @Test
-    void CorrectBookingDto() throws IOException {
+    void correctBookingDto() throws IOException {
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = LocalDateTime.now().plusDays(2);
         BookingCreateDto bookingDto = BookingCreateDto.builder().itemId(6L).bookerId(1L).start(start).end(end).build();

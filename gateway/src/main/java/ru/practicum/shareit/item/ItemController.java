@@ -62,7 +62,7 @@ public class ItemController {
     public ResponseEntity<Object> addComment(@RequestHeader(SHARER_USER_ID_HEADER) Long authorId,
                           @Valid @RequestBody CreateCommentDto createCommentDto,
                           @PathVariable Long itemId) {
-        log.info("comment = {} for item id = {} from author id = {}" , createCommentDto, itemId, authorId);
+        log.info("comment = {} for item id = {} from author id = {}", createCommentDto, itemId, authorId);
 
         return itemClient.addComment(authorId, createCommentDto, itemId);
     }

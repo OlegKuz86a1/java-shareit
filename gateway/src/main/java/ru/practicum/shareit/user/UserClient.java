@@ -24,7 +24,7 @@ public class UserClient extends BaseClient {
                 .build());
     }
 
-    public ResponseEntity<Object> create (UserCreateDto userCreateDto) {
+    public ResponseEntity<Object> create(UserCreateDto userCreateDto) {
         return post("", userCreateDto);
     }
 

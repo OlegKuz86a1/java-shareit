@@ -146,7 +146,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void DeleteByNegativeIdThenStatusIsBadRequest() throws Exception {
+    void deleteByNegativeIdThenStatusIsBadRequest() throws Exception {
         mockMvc.perform(delete("/users/-8"))
                 .andExpect(result -> assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(status().isBadRequest());
@@ -155,7 +155,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void DeleteByCorrectIdAndThenStatusIsOk() throws Exception {
+    void deleteByCorrectIdAndThenStatusIsOk() throws Exception {
         Mockito.when(userClient.delete(8L)).thenReturn(response);
 
         mockMvc.perform(delete("/users/8")).andExpect(status().isOk());

@@ -60,7 +60,7 @@ public class ItemControllerTest {
     }
 
     @BeforeEach
-    void settingUpEnvironment(){
+    void settingUpEnvironment() {
         mockMvc = MockMvcBuilders.standaloneSetup(itemController).setControllerAdvice(new ErrorHandler()).build();
         objectMapper.registerModule(new JavaTimeModule());
     }
@@ -128,6 +128,7 @@ public class ItemControllerTest {
 
         Mockito.verify(itemClient, Mockito.never()).create(5L, createDto);
     }
+
     @Test
     void correctItemUpdateAndThenStatusIsOk() throws Exception {
         Mockito.when(itemClient.update(2L, 3L, itemCreateDto)).thenReturn(response);

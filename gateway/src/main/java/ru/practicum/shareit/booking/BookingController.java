@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +50,7 @@ public class BookingController {
 	@GetMapping
 	ResponseEntity<Object> getAllByUser(@Positive @RequestHeader(SHARER_USER_ID_HEADER) Long userId,
 								  @RequestParam(defaultValue = "ALL") BookingStatus state,
-								  @Positive @RequestParam(defaultValue = "1") int from,
+								  @RequestParam(defaultValue = "0") @PositiveOrZero int from,
 								  @Positive @RequestParam(defaultValue = "10") int size) {
 		log.info("received the booking id get by user {}, state {}, from {}, size{} for rent before query: ",
 				userId, state, from, size);
@@ -59,7 +60,7 @@ public class BookingController {
 	@GetMapping("/owner")
 	ResponseEntity<Object> getAllByOwner(@Positive @RequestHeader(SHARER_USER_ID_HEADER) Long userId,
 								   @RequestParam(defaultValue = "ALL") BookingStatus state,
-								   @Positive @RequestParam(defaultValue = "1") int from,
+								   @RequestParam(defaultValue = "0") @PositiveOrZero int from,
 								   @Positive @RequestParam(defaultValue = "10") int size) {
 		log.info("received the booking id get by owner {}, state {}, from {}, size{} for rent before query: ",
 				userId, state, from, size);

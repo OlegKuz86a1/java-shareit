@@ -1,7 +1,6 @@
 package ru.practicum.shareit.request;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +44,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public ResponseEntity<Object> getAllRequests(@RequestHeader(SHARER_USER_ID_HEADER) long userId,
-                                                 @RequestParam(defaultValue = "1") @PositiveOrZero int  from,
-                                                 @RequestParam(defaultValue = "10") @Positive @Min(1) int size) {
+                                                 @RequestParam(defaultValue = "0") @PositiveOrZero int  from,
+                                                 @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("getting all requests, from={}, size={} user id {} ", from, size, userId);
         return requestClient.getAllRequests(userId, from, size);
     }

@@ -162,13 +162,13 @@ public class BookingControllerTest {
 
     @Test
     void getAllByUserAndThenStatusIsOk() throws Exception {
-        Mockito.when(bookingClient.getAllByUser(3L, BookingStatus.ALL, 1, 10)).thenReturn(response);
+        Mockito.when(bookingClient.getAllByUser(3L, BookingStatus.ALL, 0, 10)).thenReturn(response);
 
         mockMvc.perform(get("/bookings?state=ALL").header(SHARER_USER_ID_HEADER, 3L))
                 .andExpect(status().isOk());
 
         Mockito.verify(bookingClient, Mockito.times(1))
-                .getAllByUser(3L, BookingStatus.ALL, 1, 10);
+                .getAllByUser(3L, BookingStatus.ALL, 0, 10);
     }
 
 
@@ -176,28 +176,28 @@ public class BookingControllerTest {
     void getAllByUserAndInvalidFromThenIsBadRequest() throws Exception {
         mockMvc.perform(get("/bookings?state=ALL&from=-8").header(SHARER_USER_ID_HEADER, 3L))
                 .andExpect(result -> assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
-                .andExpect(result -> assertEquals("getAllByUser.from: must be greater than 0",
+                .andExpect(result -> assertEquals("getAllByUser.from: must be greater than or equal to 0",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void whenGetBookingsByOwnerIdThenStatusIsOk() throws Exception {
-        Mockito.when(bookingClient.getAllByOwner(7L, BookingStatus.APPROVED, 1, 10))
+        Mockito.when(bookingClient.getAllByOwner(7L, BookingStatus.APPROVED, 0, 10))
                 .thenReturn(response);
 
         mockMvc.perform(get("/bookings/owner?state=APPROVED").header(SHARER_USER_ID_HEADER, 7L))
                 .andExpect(status().isOk());
 
         Mockito.verify(bookingClient, Mockito.times(1))
-                .getAllByOwner(7L, BookingStatus.APPROVED, 1, 10);
+                .getAllByOwner(7L, BookingStatus.APPROVED, 0, 10);
     }
 
     @Test
     void getAllByOwnerAndInvalidFromThenIsBadRequest() throws Exception {
         mockMvc.perform(get("/bookings/owner?state=ALL&from=-8").header(SHARER_USER_ID_HEADER, 3L))
                 .andExpect(result -> assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
-                .andExpect(result -> assertEquals("getAllByOwner.from: must be greater than 0",
+                .andExpect(result -> assertEquals("getAllByOwner.from: must be greater than or equal to 0",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
                 .andExpect(status().isBadRequest());
     }

@@ -147,12 +147,12 @@ public class ItemRequestControllerTest {
 
     @Test
     void whenGetAllItemRequestAndThenStatusIsOk() throws Exception {
-        Mockito.when(requestClient.getAllRequests(8L, 1, 10)).thenReturn(response);
+        Mockito.when(requestClient.getAllRequests(8L, 0, 10)).thenReturn(response);
 
         mockMvc.perform(get("/requests/all").header(SHARER_USER_ID_HEADER, 8L))
                 .andExpect(status().isOk());
 
-        Mockito.verify(requestClient, Mockito.times(1)).getAllRequests(8L, 1, 10);
+        Mockito.verify(requestClient, Mockito.times(1)).getAllRequests(8L, 0, 10);
     }
 
 }

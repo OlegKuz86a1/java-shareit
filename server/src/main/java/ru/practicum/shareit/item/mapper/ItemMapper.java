@@ -54,14 +54,4 @@ public abstract class ItemMapper implements EntityMapper<ItemDto, Item> {
                 .build();
     }
 
-//    public ItemDto mapToItemDtoWithOwner(Item item) {
-//        return ItemDto.builder()
-//                .ownerId(item.getOwner().getId())
-//                .requestId(item.getItemRequest().getId())
-//                .name(item.getName())
-//                .description(item.getDescription())
-//                .isAvailable(item.isAvailable())
-//                .build();
-//    }
-
 }
